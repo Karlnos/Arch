@@ -10,8 +10,6 @@
         <div id="messages"></div>
         <input type="text" id="message" placeholder="Type your message...">
         <button id="send">Send</button>
-        <input type="text" id="username" placeholder="Your Username">
-        <button id="setUsername">Set Username</button>
     </div>
 
     <script>
@@ -19,30 +17,18 @@
             const messages = document.getElementById("messages");
             const messageInput = document.getElementById("message");
             const sendButton = document.getElementById("send");
-            const usernameInput = document.getElementById("username");
-            const setUsernameButton = document.getElementById("setUsername");
-
-            let username = "";
-
-            setUsernameButton.addEventListener("click", () => {
-                const newUsername = usernameInput.value;
-                if (newUsername.trim() !== "") {
-                    username = newUsername;
-                }
-            });
 
             sendButton.addEventListener("click", () => {
                 const text = messageInput.value;
                 if (text.trim() !== "") {
-                    sendMessage(username, text);
+                    sendMessage(text);
                     messageInput.value = "";
                 }
             });
 
-            function sendMessage(username, text) {
-                // In a real implementation, you would send this message to the server
-                // and broadcast it to other users.
-                displayMessage(username, text);
+            function sendMessage(text) {
+                displayMessage("You", text); // Display the sent message locally
+                receiveMessage(text); // Simulate receiving the message
             }
 
             function displayMessage(username, text) {
@@ -51,15 +37,23 @@
                 messages.appendChild(messageElement);
             }
 
-            // Simulate receiving a new message from another user
-            function receiveMessage() {
+            function receiveMessage(text) {
+                // Simulate receiving a new message from another user
                 const sender = "UserX";
-                const text = "Hello, chat!";
                 displayMessage(sender, text);
             }
 
             // Simulate receiving messages at regular intervals
-            setInterval(receiveMessage, 5000); // Every 5 seconds
+            setInterval(() => {
+                const randomMessages = [
+                    "Hello!",
+                    "How are you?",
+                    "What's up?",
+                    "This is a chat message.",
+                ];
+                const randomText = randomMessages[Math.floor(Math.random() * randomMessages.length)];
+                receiveMessage(randomText);
+            }, 5000); // Every 5 seconds
         });
     </script>
 </body>
