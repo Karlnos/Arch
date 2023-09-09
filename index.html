@@ -18,7 +18,8 @@
             const messageInput = document.getElementById("message");
             const sendButton = document.getElementById("send");
 
-            const socket = new WebSocket("ws://localhost:3000"); // Connect to your WebSocket server
+            const username = prompt("Enter your username:");
+            const socket = new WebSocket("ws://your-server-url"); // Replace with your WebSocket server URL
 
             socket.addEventListener("open", (event) => {
                 console.log("Connected to the server.");
@@ -36,13 +37,12 @@
             sendButton.addEventListener("click", () => {
                 const text = messageInput.value;
                 if (text.trim() !== "") {
-                    sendMessage(text);
+                    sendMessage(username, text);
                     messageInput.value = "";
                 }
             });
 
-            function sendMessage(text) {
-                const username = "You"; // Replace with user authentication logic if needed
+            function sendMessage(username, text) {
                 const message = { username, text };
                 socket.send(JSON.stringify(message));
                 displayMessage(username, text);
