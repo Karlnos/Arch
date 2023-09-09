@@ -18,6 +18,21 @@
             const messageInput = document.getElementById("message");
             const sendButton = document.getElementById("send");
 
+            const socket = new WebSocket("ws://localhost:3000"); // Connect to your WebSocket server
+
+            socket.addEventListener("open", (event) => {
+                console.log("Connected to the server.");
+            });
+
+            socket.addEventListener("message", (event) => {
+                const data = JSON.parse(event.data);
+                displayMessage(data.username, data.text);
+            });
+
+            socket.addEventListener("close", (event) => {
+                console.log("Disconnected from the server.");
+            });
+
             sendButton.addEventListener("click", () => {
                 const text = messageInput.value;
                 if (text.trim() !== "") {
@@ -27,8 +42,10 @@
             });
 
             function sendMessage(text) {
-                displayMessage("You", text); // Display the sent message locally
-                receiveMessage(text); // Simulate receiving the message
+                const username = "You"; // Replace with user authentication logic if needed
+                const message = { username, text };
+                socket.send(JSON.stringify(message));
+                displayMessage(username, text);
             }
 
             function displayMessage(username, text) {
@@ -36,24 +53,6 @@
                 messageElement.textContent = `${username}: ${text}`;
                 messages.appendChild(messageElement);
             }
-
-            function receiveMessage(text) {
-                // Simulate receiving a new message from another user
-                const sender = "UserX";
-                displayMessage(sender, text);
-            }
-
-            // Simulate receiving messages at regular intervals
-            setInterval(() => {
-                const randomMessages = [
-                    "Hello!",
-                    "How are you?",
-                    "What's up?",
-                    "This is a chat message.",
-                ];
-                const randomText = randomMessages[Math.floor(Math.random() * randomMessages.length)];
-                receiveMessage(randomText);
-            }, 5000); // Every 5 seconds
         });
     </script>
 </body>
