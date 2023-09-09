@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Generate a random username
     const username = "User" + Math.floor(Math.random() * 1000);
 
-    // Function to simulate polling for new messages
+    // Simulate polling for new messages every 2 seconds
     function pollForMessages() {
         setTimeout(() => {
             checkForNewMessages();
@@ -14,8 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 2000); // Poll every 2 seconds
     }
 
+    // Start polling for messages
     pollForMessages();
 
+    // Add a click event listener for the send button
     sendButton.addEventListener("click", () => {
         const text = messageInput.value;
         if (text.trim() !== "") {
@@ -24,13 +26,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Simulate sending a message
     function sendMessage(text) {
+        // In a real implementation, you would send this message to the server.
+        // For this example, we'll just display it locally.
         displayMessage(username, text);
     }
 
+    // Simulate checking for new messages from the server
     function checkForNewMessages() {
-        // Simulate checking for new messages on the server.
-        // In a real implementation, this would involve server logic.
+        // In a real implementation, you would fetch new messages from the server.
+        // For this example, we'll simulate a new message being received.
         const newMessage = getNewMessageFromServer();
         if (newMessage) {
             const { username, text } = newMessage;
@@ -38,15 +44,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Display a message in the chat window
     function displayMessage(username, text) {
         const messageElement = document.createElement("div");
         messageElement.textContent = `${username}: ${text}`;
         messages.appendChild(messageElement);
     }
 
+    // Simulate receiving a new message from the server
     function getNewMessageFromServer() {
-        // In a real implementation, this function would fetch new messages from the server.
-        // For the sake of this example, we'll simulate a new message being received.
+        // In a real implementation, you would fetch new messages from the server.
+        // For this example, we'll simulate a new message being received.
         return {
             username: "UserX",
             text: "Hello, chat!",
