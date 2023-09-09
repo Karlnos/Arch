@@ -10,6 +10,8 @@
         <div id="messages"></div>
         <input type="text" id="message" placeholder="Type your message...">
         <button id="send">Send</button>
+        <input type="text" id="username" placeholder="Your Username">
+        <button id="setUsername">Set Username</button>
     </div>
 
     <script>
@@ -17,22 +19,29 @@
             const messages = document.getElementById("messages");
             const messageInput = document.getElementById("message");
             const sendButton = document.getElementById("send");
+            const usernameInput = document.getElementById("username");
+            const setUsernameButton = document.getElementById("setUsername");
 
-            // Simulate a list of messages
-            const messageList = [];
+            let username = "";
+
+            setUsernameButton.addEventListener("click", () => {
+                const newUsername = usernameInput.value;
+                if (newUsername.trim() !== "") {
+                    username = newUsername;
+                }
+            });
 
             sendButton.addEventListener("click", () => {
                 const text = messageInput.value;
                 if (text.trim() !== "") {
-                    sendMessage(text);
+                    sendMessage(username, text);
                     messageInput.value = "";
                 }
             });
 
-            function sendMessage(text) {
+            function sendMessage(username, text) {
                 // In a real implementation, you would send this message to the server
                 // and broadcast it to other users.
-                const username = "User" + Math.floor(Math.random() * 1000);
                 displayMessage(username, text);
             }
 
@@ -44,9 +53,9 @@
 
             // Simulate receiving a new message from another user
             function receiveMessage() {
-                const username = "UserX";
+                const sender = "UserX";
                 const text = "Hello, chat!";
-                displayMessage(username, text);
+                displayMessage(sender, text);
             }
 
             // Simulate receiving messages at regular intervals
